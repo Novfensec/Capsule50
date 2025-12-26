@@ -1,5 +1,6 @@
+import os
 from carbonkivy.uix.boxlayout import CBoxLayout
-from libs.fileuploader import CFileUploader
+from carbonkivy.uix.fileuploader import CFileUploader
 from kivy.properties import StringProperty
 # from plyer import filechooser
 
@@ -19,6 +20,6 @@ class FileUploader(CFileUploader, CBoxLayout):
 
     def on_file(self, *args) -> None:
         if self.file:
-            self.description = self.file
+            self.description = os.path.basename(self.file)
         else:
             self.description = "Upload an image"
