@@ -11,5 +11,5 @@ include_exts = [
     ".toml",
 ]
 ignore_files = []
-ignore_dirs = []
+ignore_dirs = [".git"]
 noreload_files = []
