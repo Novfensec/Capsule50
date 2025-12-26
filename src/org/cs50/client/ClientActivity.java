@@ -1,4 +1,4 @@
-package org.kvdeveloper.client;
+package org.cs50.client;
 
 import android.net.Uri;
 import android.os.Bundle;
