@@ -1,0 +1,95 @@
+<EntrypointScreenView>
+
+    CStackLayout:
+        size_hint: 1, 1
+
+        CBoxLayout:
+            padding: dp(16)
+            adaptive: [False, True]
+            spacing: dp(4)
+
+            CBoxLayout:
+                adaptive: [False, True]
+                orientation: "vertical"
+                spacing: dp(8)
+
+                CLabel:
+                    text: "This is Capsule50"
+                    style: "heading_05"
+                    weight_style: "SemiBold"
+
+                CLabel:
+                    text: "Capsule of `CS50's Introduction to Computer Science` learning outcomes."
+
+            UIShellButton:
+                id: shell_theme_btn
+                icon: "moon" if (app.theme == "White") else "sun"
+                role: "Large Productive"
+                on_press:
+                    app.theme = "Gray100" if (app.theme == "White") else "White"
+
+        CScreen:
+
+            UIShellLayout:
+                size_hint: 1, 1
+
+                UI:
+                    id: manager_screens
+
+                    Home:
+                        name: "home"
+                        manager_screens: manager_screens
+
+                    Filter:
+                        name: "filter"
+                        manager_screens: manager_screens
+
+                    Sort:
+                        name: "sort"
+                        manager_screens: manager_screens
+
+            UIShell:
+                id: left_panel_shell
+
+                UIShellLeftPanel:
+                    panel_shell: left_panel_shell
+                    visibility: shell_menu_btn.active
+
+                    ScrollView:
+                        do_scroll_x: False
+
+                        UIShellPanelLayout:
+
+                            UIShellPanelSelectionLayout:
+
+                                UIShellPanelSelectionItem:
+                                    text: "Introduction"
+                                    left_icon: "home"
+                                    default: True
+                                    on_press:
+                                        manager_screens.current = "home"
+
+                                UIShellPanelSelectionItem:
+                                    text: "Filter"
+                                    left_icon: "filter"
+                                    on_press:
+                                        manager_screens.current = "filter"
+
+                                UIShellPanelSelectionItem:
+                                    text: "Sort"
+                                    left_icon: "sort--ascending"
+                                    on_press:
+                                        manager_screens.current = "sort"
+
+            UIShell:
+                id: header_shell
+
+                UIShellHeader:
+                    id: shell_header
+
+                    UIShellHeaderMenuButton:
+                        id: shell_menu_btn
+
+                    UIShellHeaderName:
+                        markup: True
+                        text: "[font=ibmplexsans]CS50[/font] Harvard"

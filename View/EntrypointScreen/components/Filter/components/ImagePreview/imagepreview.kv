@@ -1,0 +1,117 @@
+<ImagePreview>:
+    anchor_x: "right"
+    anchor_y: "top"
+    opacity: 1 if self.source else 0
+
+    Image:
+        id: img_source
+        source: root.source if root.source else ""
+        size_hint: 1, 1
+        fitmode: "contain"
+
+    CRelativeLayout:
+        size_hint: [1, 1]
+
+        CBoxLayout:
+            adaptive: [False, True]
+            pos_hint: {"top": 1.0}
+
+            CButtonSecondary:
+                id: filter_btn
+                icon: "filter"
+                on_press:
+                    root.dropdown.visibility = True
+
+            Widget:
+                size_hint: 1, None
+
+            CButtonSecondary:
+                icon: "maximize"
+                on_press:
+                    root.preview()
+
+        CBoxLayout:
+            adaptive: [False, True]
+            pos_hint: {"top": 0.0}
+
+            CButtonPrimary:
+                text: "Apply current filter"
+                on_press: root.apply_filter()
+
+
+<WindowPreview>:
+    anchor_y: "top"
+    anchor_x: "right"
+
+    Image:
+        id: img_source
+        source: root.source
+        size_hint: 1, 1
+        fitmode: "contain"
+
+    CRelativeLayout:
+        size_hint: [1, 1]
+
+        CBoxLayout:
+            adaptive: [False, True]
+            pos_hint: {"top": 1.0}
+            padding: dp(16)
+
+            CButtonSecondary:
+                id: filter_btn
+                icon: "filter"
+                on_press:
+                    root.dropdown.visibility = True
+
+            Widget:
+                size_hint: 1, None
+
+            CButtonSecondary:
+                icon: "minimize"
+                on_press:
+                    root.dismiss()
+
+        CBoxLayout:
+            adaptive: [False, True]
+            pos_hint: {"y": 0.0}
+            padding: dp(16)
+
+            CButtonPrimary:
+                text: "Apply current filter"
+                on_press: root.apply_filter()
+
+
+<TypeFilterDropdown>:
+    size_hint_x: None
+    width: dp(288)
+
+    UIShellPanelSelectionLayout:
+        id: selection_layout
+
+        SelectionItem:
+            text: "Grayscale"
+            name: "grayscale"
+            selection_type: "single"
+            default: True
+
+        SelectionItem:
+            text: "Blur"
+            name: "blur"
+            selection_type: "single"
+
+        SelectionItem:
+            text: "Reflection"
+            name: "reflection"
+            selection_type: "single"
+
+        SelectionItem:
+            text: "Sepia"
+            name: "sepia"
+            selection_type: "single"
+
+        SelectionItem:
+            text: "Edges"
+            name: "edges"
+            selection_type: "single"
+
+<SelectionItem@UIShellPanelSelectionItem>

@@ -1,0 +1,46 @@
+<FileUploader>:
+    orientation: "vertical"
+    adaptive: [False, True]
+    padding: [0, 0, 0, dp(128)]
+
+    CGridLayout:
+        cols: 2
+        spacing: dp(8)
+        adaptive: [False, True]
+
+        CBoxLayout:
+            orientation: "vertical"
+            adaptive: [False, True]
+            size_hint_x: 0.7
+            spacing: dp(16)
+
+            CBoxLayout:
+                orientation: "vertical"
+                adaptive: [False, True]
+                spacing: dp(8)
+
+                CLabel:
+                    text: "Upload file"
+                    style: "heading_compact_01"
+
+                CLabel:
+                    text: root.description
+                    style: "body_compact_01"
+
+            CButtonPrimary:
+                text: "Add file"
+                role: "Medium"
+                icon: "add--large"
+                on_release: root.upload_file(mime_type="image/*")
+
+            CBoxLayout:
+                id: data_uploaded_files
+                orientation: "vertical"
+                adaptive: [False, True]
+                spacing: dp(8)
+
+    ImagePreview:
+        id: image_preview
+        source: root.file
+        size_hint: None, None
+        size: dp(288), dp(288)

@@ -1,0 +1,10 @@
+#: import FT kivy.uix.screenmanager.FadeTransition
+
+<CScreenManager>:
+    transition: FT(duration=0.15, clearcolor=app.background)
+
+<LoadingLayout>:
+    size_hint: 1, 1
+
+    CLoadingIndicator:
+        role: "Small"

@@ -1,0 +1,32 @@
+<Home>:
+    StackLayout:
+        size_hint: 1, 1
+        padding: dp(16)
+        spacing: dp(16)
+
+        CLabel:
+            text: "CS50"
+            style: "heading_06"
+
+        CScrollView:
+
+            CBoxLayout:
+                adaptive: [False, True]
+                orientation: "vertical"
+                padding: [0, 0, 0, dp(512)]
+
+                CLabel:
+                    text: root.cs50x_desc
+                    style: "body_compact_01"
+
+                CLink:
+                    external: True
+                    url: "https://youtu.be/3oFAJtFE8YU?si=ExGCDzmCDP1blLOl"
+                    role: "Medium"
+
+                    CLinkText:
+                        text: "Watch an introduction on Youtube"
+
+                    CLinkIcon:
+                        icon: "logo--youtube"
+                        -color: "red"

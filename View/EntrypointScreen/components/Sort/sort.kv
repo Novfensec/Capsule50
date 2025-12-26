@@ -1,0 +1,76 @@
+<Sort>:
+    StackLayout:
+        size_hint: 1, 1
+        padding: dp(16)
+        spacing: dp(16)
+
+        CLabel:
+            text: "Visualizing Sort Algorithmns"
+            style: "heading_05"
+
+        CLink:
+            external: True
+            url: "https://cs50.harvard.edu/x/psets/3/sort/"
+            role: "Medium"
+
+            CLinkText:
+                text: "Read Problem set 3 - Sort"
+
+            CLinkIcon:
+                icon: "arrow--up-right"
+
+        CDivider:
+
+        CScrollView:
+
+            CBoxLayout:
+                adaptive: [False, True]
+                orientation: "vertical"
+                spacing: dp(16)
+                padding: [0, 0, 0, dp(512)]
+
+                CLabel:
+                    text: "Bubble sort"
+                    style: "heading_03"
+
+                CLabel:
+                    text: "Bubble sort works by repeatedly stepping through the list, comparing adjacent elements, and swapping them if they are in the wrong order. With each pass, the largest element “bubbles up” to its correct position at the end of the list. This process continues until no swaps are needed, meaning the list is sorted. Although simple to understand and implement, bubble sort is inefficient for large datasets because it requires many passes and comparisons."
+                    style: "body_compact_01"
+
+                CButtonTertiary:
+                    text: "Bubble sort"
+                    icon: "launch"
+                    on_press:
+                        root.run_entrypoint("bubble")
+
+                CDivider:
+
+                CLabel:
+                    text: "Insertion sort"
+                    style: "heading_03"
+
+                CLabel:
+                    text: "Insertion sort builds the sorted list one element at a time. It takes each new element (the “key”) and compares it with the already sorted portion, shifting larger elements to the right until the correct position for the key is found. This makes insertion sort efficient for small datasets or nearly sorted lists, as fewer shifts are needed. It is intuitive to visualize because you can see the key element being inserted into its proper place, much like sorting playing cards in your hand."
+                    style: "body_compact_01"
+
+                CButtonTertiary:
+                    text: "Insertion sort"
+                    icon: "launch"
+                    on_press:
+                        root.run_entrypoint("insertion")
+
+                CDivider:
+
+                CLabel:
+                    text: "Selection sort"
+                    style: "heading_03"
+
+                CLabel:
+                    text: "Selection sort divides the list into a sorted and an unsorted region. It repeatedly selects the smallest (or largest) element from the unsorted region and swaps it with the first unsorted element, thereby growing the sorted region one element at a time. This algorithm is easy to visualize because you can clearly see the “selection” of the minimum element and its placement. However, like bubble sort, it is not efficient for large datasets since it always performs n^2 comparisons regardless of the initial order."
+                    style: "body_compact_01"
+
+                CButtonTertiary:
+                    text: "Selection sort"
+                    icon: "launch"
+                    on_press:
+                        root.run_entrypoint("selection")

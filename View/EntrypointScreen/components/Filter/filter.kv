@@ -1,0 +1,95 @@
+<Filter>:
+
+    CTabLayout:
+        size_hint: 1, 1
+
+        CTabHeader:
+            tab_manager: tab_manager
+
+            CTabHeaderItem:
+                primary_text: "Description"
+                name_tab: "desc"
+                selected: True
+
+            CTabHeaderItem:
+                primary_text: "Live Demo"
+                name_tab: "demo"
+
+        CTabManager:
+            id: tab_manager
+            size_hint: 1, 1
+
+            DescTab:
+                scr: root
+                name: "desc"
+
+            DemoTab:
+                name: "demo"
+
+<DescTab@CTab>:
+    scr: None
+
+    StackLayout:
+        size_hint: 1, 1
+        spacing: dp(16)
+
+        CLabel:
+            text: "Filter problem"
+            style: "heading_06"
+
+        CLink:
+            external: True
+            url: "https://cs50.harvard.edu/x/psets/4/filter/more/"
+            role: "Medium"
+
+            CLinkText:
+                text: "Read problem set 4 - filter-more"
+
+            CLinkIcon:
+                icon: "arrow--up-right"
+
+        CDivider:
+
+        CScrollView:
+
+            CBoxLayout:
+                adaptive: [False, True]
+                orientation: "vertical"
+                padding: [0, 0, 0, dp(256)]
+
+                CLabel:
+                    text: root.scr.cs50x_desc if root.scr else ""
+                    style: "body_compact_01"
+
+                CLink:
+                    external: True
+                    url: "https://youtube.com/playlist?list=PLhQjrBD2T382OwvMbZuaMGtD9wZkhnhYj&si=rghiC3USXjhE_dfG"
+                    role: "Medium"
+
+                    CLinkText:
+                        text: "Walkthrough"
+
+                    CLinkIcon:
+                        icon: "logo--youtube"
+                        -color: "red"
+
+<DemoTab@CTab>:
+    scr: None
+
+    StackLayout:
+        size_hint: 1, 1
+        spacing: dp(16)
+
+        CLabel:
+            text: "Live Demo"
+            style: "heading_06"
+
+        CScrollView:
+
+            CBoxLayout:
+                adaptive: [False, True]
+                orientation: "vertical"
+                padding: [0, 0, 0, dp(512)]
+
+                FileUploader:
+                    description: "Upload an image"
