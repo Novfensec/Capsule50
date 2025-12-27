@@ -24,6 +24,7 @@ import webbrowser
 
 from carbonkivy.app import CarbonApp
 from carbonkivy.uix.screenmanager import CScreenManager
+from carbonkivy.utils import update_system_ui
 
 # ==========================
 # Third-Party Library Imports
@@ -67,6 +68,11 @@ class Capsule50(CarbonApp):
         super(Capsule50, self).__init__(**kwargs)
         self.load_all_kv_files(os.path.join(self.directory, "View"))
         self.loading_layout = LoadingLayout()
+
+    def on_theme(self, *args) -> None:
+        icon_style = "Light" if (self.theme in ["White", "Gray10"]) else "Dark"
+        update_system_ui(self.background, self.background, icon_style)
+        super(Capsule50, self).on_theme(*args)
 
     def build(self) -> UI:
         # This is the screen manager that will contain all the screens of your application.
