@@ -71,7 +71,7 @@ class Capsule50(CarbonApp):
 
     def on_theme(self, *args) -> None:
         super(Capsule50, self).on_theme(*args)
-        icon_style = "Light" if (self.theme in ["White", "Gray10"]) else "Dark"
+        icon_style = "Dark" if (self.theme in ["White", "Gray10"]) else "Light"
         update_system_ui(self.background, self.background, icon_style)
 
     def build(self) -> UI:
