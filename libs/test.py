@@ -1,20 +1,21 @@
-import os, random
+import json
+import os
+import random
 
 from carbonkivy.app import CarbonApp
 from carbonkivy.uix.boxlayout import CBoxLayout
-from kivy.uix.widget import Widget
-from kivy.graphics import Rectangle, Color
-from kivy.properties import StringProperty
-from kivy.clock import Clock
 from kivy.animation import Animation
+from kivy.clock import Clock
+from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
+from kivy.metrics import dp
+from kivy.properties import StringProperty
+from kivy.uix.widget import Widget
 
 
 class Bar(Widget):
     def __init__(self, value, **kwargs):
-        super().__init__(**kwargs)
-        self.size_hint = (None, None)
-        self.width = 20
+        super(Bar, self).__init__(**kwargs)
         self.height = value
         with self.canvas:
             # default blue
@@ -42,16 +43,18 @@ class SortVisualizer(CBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.app = CarbonApp.get_running_app()
-        self.orientation = 'horizontal'
-        self.spacing = 5
         self.bars = []
-        if os.environ.get("namesort"):
-            self.name_sort = os.environ.get("namesort")
+        content = ""
+        with open(
+            os.path.join(os.path.dirname(__file__), "env.json"), "r", encoding="utf-8"
+        ) as env_file:
+            content = json.load(env_file)
+        self.name_sort = content["namesort"]
         self.app.name_sort = self.name_sort
-        self.data = [random.randint(50, 300) for _ in range(15)]
+        self.data = [random.randint(64, 300) for _ in range(15)]
 
         for val in self.data:
-            bar = Bar(val)
+            bar = Bar(dp(val))
             self.add_widget(bar)
             self.bars.append(bar)
 
@@ -133,7 +136,7 @@ class SortApp(CarbonApp):
     name_sort = StringProperty("insertion")
 
     def build(self):
-        self.app_kv="""
+        self.app_kv = """
 CScreen:
     CLabel:
         text: app.name_sort.capitalize() + f' Sort'
@@ -142,9 +145,17 @@ CScreen:
         pos_hint: {"center_x": 0.5, "center_y": 0.8}
 
     SortVisualizer:
+        orientation: "horizontal"
+        spacing: dp(4)
         size_hint: 1, 1
+        padding: [0, 0, 0, dp(64)]
+
+<Bar>:
+    size_hint: None, None
+    width: dp(16)
         """
         return Builder.load_string(self.app_kv)
+
 
 if __name__ == "__main__":
 

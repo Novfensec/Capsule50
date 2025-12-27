@@ -1,9 +1,8 @@
+from carbonkivy.uix.notification import CNotificationInline, CNotificationToast
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.event import EventDispatcher
 from kivy.properties import ListProperty
-
-from carbonkivy.uix.notification import CNotificationInline, CNotificationToast
 
 
 class BaseScreenModel(EventDispatcher):

@@ -3,20 +3,20 @@ import sys
 
 os.environ["devicetype"] = "mobile"
 
-from View.base_screen import LoadingLayout
-from kivy.uix.screenmanager import FadeTransition as FT
-from carbonkivy.uix.screenmanager import CScreenManager
-from carbonkivy.devtools import LiveApp
-from carbonkivy.app import CarbonApp
-import webbrowser
-from kivy.properties import ColorProperty
-from kivy.core.window import Window
-from kivy.clock import Clock, mainthread
 import importlib
+import webbrowser
 
+from carbonkivy.app import CarbonApp
+from carbonkivy.devtools import LiveApp
+from carbonkivy.uix.screenmanager import CScreenManager
+from kivy.clock import Clock, mainthread
+from kivy.core.window import Window
+from kivy.properties import ColorProperty
 from kivy.resources import resource_add_path
+from kivy.uix.screenmanager import FadeTransition as FT
 
 import registers
+from View.base_screen import LoadingLayout
 
 sys.path.insert(0, os.path.dirname(__file__))
 resource_add_path(os.path.dirname(__file__))

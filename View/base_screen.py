@@ -1,12 +1,11 @@
 from typing import Literal
 
-from kivy.app import App
-from kivy.input.providers.mouse import MouseMotionEvent
-from kivy.properties import ObjectProperty
-
 from carbonkivy.uix.loading import CLoadingLayout
 from carbonkivy.uix.notification import CNotificationInline, CNotificationToast
 from carbonkivy.uix.screen import CScreen
+from kivy.app import App
+from kivy.input.providers.mouse import MouseMotionEvent
+from kivy.properties import ObjectProperty
 
 from Utility.observer import Observer
 

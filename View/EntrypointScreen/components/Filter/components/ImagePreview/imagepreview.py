@@ -1,12 +1,16 @@
+import threading
+
 from carbonkivy.uix.anchorlayout import CAnchorLayout
-from carbonkivy.uix.modal import CModal
 from carbonkivy.uix.dropdown import CDropdown
+from carbonkivy.uix.modal import CModal
+from kivy.app import App
 from kivy.clock import mainthread
 from kivy.core.window import Window
-from kivy.properties import StringProperty, ObjectProperty
 from kivy.event import EventDispatcher
+from kivy.properties import ObjectProperty, StringProperty
 
 from libs.filter import ImageFilter
+
 
 class TypeFilterDropdown(CDropdown):
 
@@ -22,7 +26,9 @@ class Preview(EventDispatcher):
 
     def __init__(self, **kwargs) -> None:
         super(Preview, self).__init__(**kwargs)
+        self.app = App.get_running_app()
         self.ft = ImageFilter()
+        self.ft.bind(texture=self.on_texture)
 
     def on_kv_post(self, base_widget) -> None:
         self.dropdown = TypeFilterDropdown(
@@ -30,15 +36,22 @@ class Preview(EventDispatcher):
         )
         return super().on_kv_post(base_widget)
 
-    @mainthread
     def apply_filter(self, *args) -> None:
+        self.app.loading_state(True, master=self)
         type_filter = ""
         for item in self.dropdown.ids.selection_layout.children:
             if hasattr(item, "selected") and item.selected:
                 type_filter = item.name.lower()
-        texture = self.ft.apply(type_filter, self.source)
+        thread = threading.Thread(
+            target=self.ft.apply,
+            kwargs={"filter_name": type_filter, "source": self.source},
+        )
+        thread.start()
+
+    def on_texture(self, instance: object, texture: object, *args) -> None:
         self.ids.img_source.texture = texture
         self.ids.img_source.canvas.ask_update()
+        self.app.loading_state(False, master=self)
 
 
 class WindowPreview(Preview, CModal):
@@ -53,6 +66,7 @@ class WindowPreview(Preview, CModal):
             Window.remove_widget(self)
         except Exception as e:
             return
+
 
 class ImagePreview(Preview, CAnchorLayout):
 

@@ -1,9 +1,19 @@
 # filter.py
-from PIL import Image, ImageOps, ImageFilter as PilFilter
-from kivy.graphics.texture import Texture
 import io
 
-class ImageFilter:
+from kivy.clock import Clock
+from kivy.event import EventDispatcher
+from kivy.graphics.texture import Texture
+from kivy.properties import ObjectProperty
+from PIL import Image
+from PIL import ImageFilter as PilFilter
+from PIL import ImageOps
+
+
+class ImageFilter(EventDispatcher):
+
+    texture = ObjectProperty()
+
     def __init__(self, **kwargs) -> None:
         super(ImageFilter, self).__init__(**kwargs)
         # Register filters here
@@ -12,7 +22,7 @@ class ImageFilter:
             "sepia": self._sepia,
             "blur": self._blur,
             "reflection": self._reflect,
-            "edges": self._edges
+            "edges": self._edges,
         }
 
     def apply(self, filter_name, source):
@@ -36,6 +46,13 @@ class ImageFilter:
         img = self.filters[filter_name](img)
 
         # Convert to Kivy Texture
+        def _apply(dt):
+            try:
+                self.texture = self._to_texture(img)
+            except Exception as e:
+                print(e)
+
+        Clock.schedule_once(_apply)
         return self._to_texture(img)
 
     # ---------------- FILTER IMPLEMENTATIONS ---------------- #
@@ -56,15 +73,40 @@ class ImageFilter:
 
         return sepia_img
 
-    def _blur(self, img):
-        return img.filter(PilFilter.BLUR)
+    def _blur(self, img: Image.Image) -> Image.Image:
+        # Normalize and copy to avoid read-only / stream issues
+        if img.mode not in ("RGB", "RGBA"):
+            img = img.convert("RGBA")
+        work = img.copy()
+
+        try:
+            # Basic box blur equivalent to BLUR
+            return work.filter(PilFilter.BLUR)
+        except Exception:
+            # Fallbacks that are widely supported
+            try:
+                return work.filter(PilFilter.BoxBlur(1))
+            except Exception:
+                return work.filter(PilFilter.GaussianBlur(1))
 
     def _reflect(self, img):
         return ImageOps.mirror(img)
 
     def _edges(self, img):
-        # Edge detection using Pillow’s built-in filter
-        return img.filter(PilFilter.FIND_EDGES)
+        # Normalize mode: FIND_EDGES works best on RGB
+        if img.mode not in ("RGB", "L"):
+            img = img.convert("RGB")
+
+        try:
+            # Apply Pillow’s built-in edge detection
+            edge_img = img.filter(PilFilter.FIND_EDGES)
+        except Exception:
+            # Fallback Laplacian kernel if FIND_EDGES fails
+            kernel = [-1, -1, -1, -1, 8, -1, -1, -1, -1]
+            edge_img = img.filter(PilFilter.Kernel((3, 3), kernel, scale=1))
+
+        # Convert back to RGBA for Kivy texture compatibility
+        return edge_img.convert("RGBA")
 
     # ---------------- HELPER ---------------- #
 
@@ -73,7 +115,7 @@ class ImageFilter:
         Convert Pillow Image to Kivy Texture.
         """
         img_data = img.tobytes()
-        texture = Texture.create(size=img.size, colorfmt='rgba')
-        texture.blit_buffer(img_data, colorfmt='rgba', bufferfmt='ubyte')
+        texture = Texture.create(size=img.size, colorfmt="rgba")
+        texture.blit_buffer(img_data, colorfmt="rgba", bufferfmt="ubyte")
         texture.flip_vertical()
         return texture

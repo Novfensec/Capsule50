@@ -9,7 +9,9 @@ and modernize.
 # ==========================
 # Standard Library Imports
 # ==========================
-import os, sys
+import os
+import sys
+
 from kivy.resources import resource_add_path
 
 os.environ["devicetype"] = "mobile"
@@ -17,17 +19,19 @@ os.environ["devicetype"] = "mobile"
 sys.path.insert(0, os.path.dirname(__file__))
 resource_add_path(os.path.dirname(__file__))
 
-import registers
 import ssl
 import webbrowser
+
+from carbonkivy.app import CarbonApp
+from carbonkivy.uix.screenmanager import CScreenManager
 
 # ==========================
 # Third-Party Library Imports
 # ==========================
 from kivy.clock import Clock, mainthread
 from kivy.core.window import Window
-from carbonkivy.app import CarbonApp
-from carbonkivy.uix.screenmanager import CScreenManager
+
+import registers
 
 # ==========================
 # Custom Module Imports
@@ -59,7 +63,7 @@ class UI(CScreenManager):
 class Capsule50(CarbonApp):
 
     def __init__(self, **kwargs):
-        self.theme = "Gray100"
+        self.theme = "White"
         super(Capsule50, self).__init__(**kwargs)
         self.load_all_kv_files(os.path.join(self.directory, "View"))
         self.loading_layout = LoadingLayout()

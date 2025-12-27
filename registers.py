@@ -1,6 +1,7 @@
+import glob
 import importlib
 import os
-import glob
+
 from kivy.factory import Factory
 
 view_path = os.path.join(os.path.dirname(__file__), "View")
@@ -21,8 +22,10 @@ for component_path in component_dirs:
 
         if component != "__pycache__" and os.path.isdir(target_dir):
             module_name = os.path.basename(target_dir)
-            module_import_path = f"View.{os.path.relpath(target_dir, view_path).replace(os.sep, '.')}"
-            
+            module_import_path = (
+                f"View.{os.path.relpath(target_dir, view_path).replace(os.sep, '.')}"
+            )
+
             try:
                 module = importlib.import_module(module_import_path)
                 Factory.register(module_name, cls=getattr(module, module_name))

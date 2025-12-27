@@ -1,8 +1,12 @@
-import os, sys
-import subprocess # nosec
+import json
+import os
+import subprocess  # nosec
+import sys
+
+from kivy.utils import platform
 
 from View.base_screen import BaseScreenView
-from kivy.utils import platform
+
 if platform == "android":
     from libs.launcher.android import launch_client_activity
 
@@ -14,14 +18,20 @@ class Sort(BaseScreenView):
 
     def run_entrypoint(self, namesort: str | None = None) -> None:
         entrypoint_path = os.path.abspath(
-            os.path.join(os.getcwd(), "libs", "test.py")
+            os.path.join(self.app.directory, "libs", "test.py")
         )
         target_dir = os.path.dirname(entrypoint_path)
         try:
             if platform == "android":
                 launch_client_activity(entrypoint_path)
             else:
-                os.environ["namesort"] = namesort
+                with open(
+                    os.path.join(target_dir, "env.json"), "w", encoding="utf-8"
+                ) as env_file:
+                    json.dump(
+                        {"namesort": namesort}, env_file, ensure_ascii=False, indent=4
+                    )
+
                 self.process = subprocess.Popen(
                     [sys.executable, entrypoint_path], cwd=target_dir, env=os.environ
                 )  # nosec

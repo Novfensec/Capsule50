@@ -18,10 +18,10 @@ package.domain = org.cs50
 source.dir = .
 
 # (list) Source files to include (leave empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas
+source.include_exts = py,png,jpg,kv,atlas,json
 
 # (list) List of inclusions using pattern matching
-#source.include_patterns = assets/*,assets/images/*.png
+source.include_patterns = assets/*,assets/images/*.png,libs/*.json
 
 # (list) Source files to exclude (leave empty to not exclude anything)
 #source.exclude_exts = spec

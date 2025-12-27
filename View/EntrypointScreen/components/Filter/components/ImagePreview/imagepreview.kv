@@ -74,7 +74,7 @@
         CBoxLayout:
             adaptive: [False, True]
             pos_hint: {"y": 0.0}
-            padding: dp(16)
+            padding: [dp(16), dp(16), dp(16), dp(64)]
 
             CButtonPrimary:
                 text: "Apply current filter"
@@ -87,6 +87,8 @@
 
     UIShellPanelSelectionLayout:
         id: selection_layout
+        on_selected_items:
+            root.visibility = False
 
         SelectionItem:
             text: "Grayscale"

@@ -1,6 +1,7 @@
 import os
-from jnius import autoclass # type: ignore
+
 from android.runnable import run_on_ui_thread  # type: ignore
+from jnius import autoclass  # type: ignore
 
 ApplicationActivity = autoclass("org.kivy.android.PythonActivity")
 ClientActivity = autoclass("org.cs50.client.ClientActivity")
