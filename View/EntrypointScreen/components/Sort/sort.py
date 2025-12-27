@@ -21,17 +21,12 @@ class Sort(BaseScreenView):
             os.path.join(self.app.directory, "libs", "test.py")
         )
         target_dir = os.path.dirname(entrypoint_path)
+        with open(os.path.join(target_dir, "env.json"), "w", encoding="utf-8") as env_file:
+    json.dump({"namesort": namesort}, env_file, ensure_ascii=False, indent=4)
         try:
             if platform == "android":
                 launch_client_activity(entrypoint_path)
             else:
-                with open(
-                    os.path.join(target_dir, "env.json"), "w", encoding="utf-8"
-                ) as env_file:
-                    json.dump(
-                        {"namesort": namesort}, env_file, ensure_ascii=False, indent=4
-                    )
-
                 self.process = subprocess.Popen(
                     [sys.executable, entrypoint_path], cwd=target_dir, env=os.environ
                 )  # nosec
