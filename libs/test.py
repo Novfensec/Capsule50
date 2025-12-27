@@ -139,12 +139,13 @@ class SortApp(CarbonApp):
         self.app_kv = """
 CScreen:
     CLabel:
-        text: app.name_sort.capitalize() + f' Sort'
+        text: st.name_sort.capitalize() + f' Sort'
         style: "heading_05"
         halign: "center"
         pos_hint: {"center_x": 0.5, "center_y": 0.8}
 
     SortVisualizer:
+        id: st
         orientation: "horizontal"
         spacing: dp(4)
         size_hint: 1, 1
