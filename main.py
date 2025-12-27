@@ -70,9 +70,9 @@ class Capsule50(CarbonApp):
         self.loading_layout = LoadingLayout()
 
     def on_theme(self, *args) -> None:
+        super(Capsule50, self).on_theme(*args)
         icon_style = "Light" if (self.theme in ["White", "Gray10"]) else "Dark"
         update_system_ui(self.background, self.background, icon_style)
-        super(Capsule50, self).on_theme(*args)
 
     def build(self) -> UI:
         # This is the screen manager that will contain all the screens of your application.
