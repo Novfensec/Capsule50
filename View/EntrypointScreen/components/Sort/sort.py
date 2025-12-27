@@ -22,7 +22,7 @@ class Sort(BaseScreenView):
         )
         target_dir = os.path.dirname(entrypoint_path)
         with open(os.path.join(target_dir, "env.json"), "w", encoding="utf-8") as env_file:
-    json.dump({"namesort": namesort}, env_file, ensure_ascii=False, indent=4)
+            json.dump({"namesort": namesort}, env_file, ensure_ascii=False, indent=4)
         try:
             if platform == "android":
                 launch_client_activity(entrypoint_path)
